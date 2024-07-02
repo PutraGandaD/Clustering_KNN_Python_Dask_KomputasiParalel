@@ -30,6 +30,9 @@ if __name__ == '__main__':
 
     print("Kedua worker telah terhubung. Memulai clustering...")
 
+    # Start the timer
+    start_time = time.time()
+
     # Load the dataset (only on the main computer/server)
     file_path = 'trimmed_online_retail_II.csv' 
     data = pd.read_csv(file_path)
@@ -39,11 +42,17 @@ if __name__ == '__main__':
     kmeans = KMeans(n_clusters=5, random_state=0)  
     kmeans.fit(features) 
 
+    # Stop the timer and calculate the execution time
+    end_time = time.time()
+    execution_time = end_time - start_time
+
     # Get cluster labels and save results (only on the main computer/server)
     labels = kmeans.labels_
     data['Cluster'] = labels
     data.to_csv('clustered_online_retail_II.csv', index=False)
+
     print("Clustering selesai dan hasil disimpan.")
+    print(f"Waktu eksekusi clustering: {execution_time:.2f} detik")
 
     # Close the Dask client
     client.close()

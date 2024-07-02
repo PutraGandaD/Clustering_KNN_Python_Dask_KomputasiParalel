@@ -22,9 +22,6 @@ if __name__ == '__main__':
 
     # Create the Dask client
     client = Client(scheduler_address) 
-    
-    # Seed the Dask client for added consistency (optional)
-    client.seed(0)
 
     # Wait for both worker computers to connect
     while len(client.scheduler_info()['workers']) < 2:
@@ -39,7 +36,7 @@ if __name__ == '__main__':
     features = data[['Quantity', 'Price']].fillna(0)
 
     # Perform K-Means clustering
-    kmeans = KMeans(n_clusters=5, random_state=0)  # Use random_state for reproducibility
+    kmeans = KMeans(n_clusters=5, random_state=0)  
     kmeans.fit(features) 
 
     # Get cluster labels and save results (only on the main computer/server)
